@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -11,12 +11,17 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
+        # Добавляем для правильной работы с constraints
+        hbm2ddl.import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
     show-sql: true
   liquibase:
     enabled: false
+  sql:
+    init:
+      mode: never
 
 app:
-  jwt-secret: test-jwt-secret-key-for-testing-purposes-only
+  jwt-secret: test-jwt-secret-key-for-testing-purposes-only-123456789012345678901234567890
   jwt-expiration-ms: 3600000
   encryption-key: testEncryptionKey12345678901234567890123456789012
 
@@ -25,3 +30,4 @@ logging:
     org.springframework.boot.autoconfigure.liquibase: WARN
     liquibase: WARN
     com.example.bankcards: DEBUG
+    org.hibernate: WARN
