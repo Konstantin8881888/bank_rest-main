@@ -1,6 +1,27 @@
 databaseChangeLog:
   - changeSet:
-      id: 001-create-users-table
+      id: 001-create-roles-table
+      author: developer
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(20)
+                  constraints:
+                    unique: true
+                    nullable: false
+
+  - changeSet:
+      id: 002-create-users-table
       author: developer
       changes:
         - createTable:
@@ -25,17 +46,39 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: role
-                  type: VARCHAR(20)
-                  constraints:
-                    nullable: false
-              - column:
                   name: created_at
                   type: TIMESTAMP
-                  defaultValue: "now()"
+                  defaultValueComputed: "CURRENT_TIMESTAMP"
 
   - changeSet:
-      id: 002-create-bank-cards-table
+      id: 003-create-user-roles-table
+      author: developer
+      changes:
+        - createTable:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_user_roles_user
+                    references: users(id)
+                    deleteCascade: true
+              - column:
+                  name: role_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_user_roles_role
+                    references: roles(id)
+                    deleteCascade: true
+        - addPrimaryKey:
+            tableName: user_roles
+            columnNames: user_id, role_id
+
+  - changeSet:
+      id: 004-create-bank-cards-table
       author: developer
       changes:
         - createTable:
@@ -82,10 +125,23 @@ databaseChangeLog:
               - column:
                   name: created_at
                   type: TIMESTAMP
-                  defaultValue: "now()"
+                  defaultValueComputed: "CURRENT_TIMESTAMP"
 
   - changeSet:
-      id: 003-insert-admin-user
+      id: 005-insert-roles
+      author: developer
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column: {name: name, value: "ADMIN"}
+        - insert:
+            tableName: roles
+            columns:
+              - column: {name: name, value: "USER"}
+
+  - changeSet:
+      id: 006-insert-admin-user
       author: developer
       changes:
         - insert:
@@ -96,7 +152,6 @@ databaseChangeLog:
                   value: "admin"
               - column:
                   name: password
-                  value: "$2a$10$ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQR" # password: admin123
-              - column:
-                  name: role
-                  value: "ADMIN"
+                  value: "$2a$10$ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQR"
+        - sql:
+            sql: INSERT INTO user_roles (user_id, role_id) VALUES ((SELECT id FROM users WHERE username = 'admin'), (SELECT id FROM roles WHERE name = 'ADMIN'))

@@ -1,6 +1,3 @@
-#
-# application.yml — главный конфигурационный файл Spring Boot.
-
 server:
   port: 8080
 
@@ -13,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: validate  # Изменим на none для чистоты
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -21,7 +18,14 @@ spring:
     show-sql: true
 
   liquibase:
-    change-log: classpath:db.migration/changes/changelog-master.yaml
+    change-log: classpath:db/migration/changelog-master.yaml
+    enabled: true
+
+logging:
+  level:
+    org.springframework.boot.autoconfigure.liquibase: DEBUG
+    liquibase: DEBUG
+    com.example.bankcards: DEBUG
 
 app:
   jwt-secret: mySecretKeyForJWTGeneration12345

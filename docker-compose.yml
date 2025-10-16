@@ -1,8 +1,6 @@
 # 
 # docker-compose.yml — определяет сервисы для разработки и тестирования.
 
-version: '3.8'
-
 services:
   postgres:
     image: postgres:15
