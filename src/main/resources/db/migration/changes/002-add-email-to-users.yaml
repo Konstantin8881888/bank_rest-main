@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-add-email-column
+      author: developer
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  type: VARCHAR(100)
+                  constraints:
+                    unique: true
+                    nullable: true
+
+
+  - changeSet:
+      id: 002-update-admin-user
+      author: developer
+      changes:
+        - update:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: "admin@bank.com"
+              - column:
+                  name: password
+                  value: "$2a$10$oU7Nhrl6Y8nGbebY/mnBm.6BREWibmx3y0SQyDaG8vQb2HYGABnvy"  # BCrypt хеш для admin123
+            where: "username='admin'"
