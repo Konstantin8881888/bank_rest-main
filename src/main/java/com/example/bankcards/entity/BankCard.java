@@ -20,8 +20,9 @@ public class BankCard {
     @Column(nullable = false)
     private String expiryDate; // Формат: MM/YY
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status; // ACTIVE, BLOCKED, EXPIRED
+    private BankCardStatus status;
 
     @Column(precision = 15, scale = 2)
     private BigDecimal balance = BigDecimal.ZERO;
@@ -37,7 +38,7 @@ public class BankCard {
         this.createdAt = LocalDateTime.now();
     }
 
-    public BankCard(String cardNumber, String cardHolder, String expiryDate, String status, User user) {
+    public BankCard(String cardNumber, String cardHolder, String expiryDate, BankCardStatus status, User user) {
         this();
         this.cardNumber = cardNumber;
         this.cardHolder = cardHolder;
@@ -59,8 +60,8 @@ public class BankCard {
     public String getExpiryDate() { return expiryDate; }
     public void setExpiryDate(String expiryDate) { this.expiryDate = expiryDate; }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public BankCardStatus getStatus() { return status; }
+    public void setStatus(BankCardStatus status) { this.status = status; }
 
     public BigDecimal getBalance() { return balance; }
     public void setBalance(BigDecimal balance) { this.balance = balance; }

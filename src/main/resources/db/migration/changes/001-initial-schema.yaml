@@ -140,22 +140,6 @@ databaseChangeLog:
             columns:
               - column: {name: name, value: "USER"}
 
-#  - changeSet:
-#      id: 006-insert-admin-user
-#      author: developer
-#      changes:
-#        - insert:
-#            tableName: users
-#            columns:
-#              - column:
-#                  name: username
-#                  value: "admin"
-#              - column:
-#                  name: password
-#                  value: "$2a$10$ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQR"
-#        - sql:
-#            sql: INSERT INTO user_roles (user_id, role_id) VALUES ((SELECT id FROM users WHERE username = 'admin'), (SELECT id FROM roles WHERE name = 'ADMIN'))
-
   - changeSet:
       id: 006-insert-admin-user
       author: developer

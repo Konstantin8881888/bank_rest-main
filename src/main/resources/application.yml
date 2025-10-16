@@ -30,3 +30,12 @@ logging:
 app:
   jwt-secret: mySuperSecretKeyForJWTGenerationThatIsLongEnoughForHS256Algorithm1234567890
   jwt-expiration-ms: 86400000
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
