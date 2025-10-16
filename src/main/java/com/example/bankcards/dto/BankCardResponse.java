@@ -7,10 +7,11 @@ import java.time.LocalDateTime;
 
 public class BankCardResponse {
     private Long id;
-    private String maskedCardNumber; // Маскированный номер: **** **** **** 1234
+    private String maskedCardNumber;
     private String cardHolder;
     private String expiryDate;
     private BankCardStatus status;
+    private String statusDisplayName;
     private BigDecimal balance;
     private LocalDateTime createdAt;
 
@@ -25,6 +26,7 @@ public class BankCardResponse {
         this.cardHolder = cardHolder;
         this.expiryDate = expiryDate;
         this.status = status;
+        this.statusDisplayName = status.getDisplayName();
         this.balance = balance;
         this.createdAt = createdAt;
     }
@@ -43,7 +45,13 @@ public class BankCardResponse {
     public void setExpiryDate(String expiryDate) { this.expiryDate = expiryDate; }
 
     public BankCardStatus getStatus() { return status; }
-    public void setStatus(BankCardStatus status) { this.status = status; }
+    public void setStatus(BankCardStatus status) {
+        this.status = status;
+        this.statusDisplayName = status.getDisplayName();
+    }
+
+    public String getStatusDisplayName() { return statusDisplayName; }
+    public void setStatusDisplayName(String statusDisplayName) { this.statusDisplayName = statusDisplayName; }
 
     public BigDecimal getBalance() { return balance; }
     public void setBalance(BigDecimal balance) { this.balance = balance; }

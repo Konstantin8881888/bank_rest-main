@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+    show-sql: true
+  liquibase:
+    enabled: false
+
+app:
+  jwt-secret: test-jwt-secret-key-for-testing-purposes-only
+  jwt-expiration-ms: 3600000
+  encryption-key: testEncryptionKey12345678901234567890123456789012
+
+logging:
+  level:
+    org.springframework.boot.autoconfigure.liquibase: WARN
+    liquibase: WARN
+    com.example.bankcards: DEBUG

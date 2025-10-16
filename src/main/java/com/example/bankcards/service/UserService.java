@@ -2,6 +2,7 @@ package com.example.bankcards.service;
 
 import com.example.bankcards.entity.Role;
 import com.example.bankcards.entity.User;
+import com.example.bankcards.exception.BadRequestException;
 import com.example.bankcards.repository.RoleRepository;
 import com.example.bankcards.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,17 @@ public class UserService {
     }
 
     public User createUser(String username, String email, String password) {
+        // Проверяем существование пользователя
+        if (userRepository.existsByUsername(username)) {
+            throw new BadRequestException("Username is already taken!");
+        }
+
+        // Проверяем email
+        if (userRepository.existsByEmail(email)) {
+            throw new BadRequestException("Email is already in use!");
+        }
+
+        // Создаем нового пользователя
         User user = new User(username, email, passwordEncoder.encode(password));
 
         Set<Role> roles = new HashSet<>();
